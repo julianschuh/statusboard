@@ -1,6 +1,9 @@
+require 'json'
+
 module Statusboard
 
 	class GraphWidget < WidgetBase
+
 		def initialize(title, type = :bar)
 			@title = title
 			@type = type
@@ -21,33 +24,38 @@ module Statusboard
 		end
 
 		def render
+			self.construct.to_json
+		end
+
+	protected
+		def construct
 		{
 			"graph" => {
 				"title" 				=> @title,
 				"refreshEveryNSeconds"	=> @refresh_interval,
 				"totals"				=> @display_totals,
 				"type"					=> @type,
-				"datasequences"			=> @data_sequences.map(&:render)
+				"datasequences"			=> @data_sequences.map(&:construct)
 			}
 		}
 		end
-	end
 
-	class DataSequence
-		def initialize(title)
-			@title = title
-			@datapoints = {}
-		end
+		class DataSequence
+			def initialize(title)
+				@title = title
+				@datapoints = {}
+			end
 
-		def add_datapoint(key, value)
-			@datapoints[key] = value
-		end
+			def add_datapoint(key, value)
+				@datapoints[key] = value
+			end
 
-		def render
-			{
-				"title" => @title,
-				"datapoints" => @datapoints
-			}
+			def construct
+				{
+					"title" => @title,
+					"datapoints" => @datapoints
+				}
+			end
 		end
 	end
 end
