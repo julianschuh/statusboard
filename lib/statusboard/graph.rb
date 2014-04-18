@@ -53,7 +53,7 @@ module Statusboard
 			def construct
 				{
 					"title" => @title,
-					"datapoints" => @datapoints
+					"datapoints" => @datapoints.map { |key, value| { key => value } }
 				}
 			end
 		end
