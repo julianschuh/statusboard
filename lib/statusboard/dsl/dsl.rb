@@ -143,7 +143,7 @@ module Statusboard
 			end
 
 			def datapoint(x, y)
-				@datapoints << {key: x, value: y}
+				@datapoints << {title: x, value: y}
 			end
 
 			def color(color)
