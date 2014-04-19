@@ -16,6 +16,7 @@ x = Statusboard::GraphWidget.new do
 	
 	data_sequence do
 		title "Fucking 2"
+		color "blue"
 
 		(0..59).step(5) do |n|
 			datapoint "10:" + n.to_s, 26

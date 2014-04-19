@@ -155,7 +155,7 @@ module Statusboard
                     "title" => @title,
                     "datapoints" => @datapoints
                 }
-                construct["color"] = @color unless @color.nil?
+                constructed["color"] = @color unless @color.nil?
 
                 constructed
             end
