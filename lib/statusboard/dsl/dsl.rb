@@ -131,15 +131,15 @@ module Statusboard
 
 		class DataSequence
 			def initialize(&block)
-				@name = ""
+				@title = ""
 				@datapoints = []
 				@color = nil
 
 				instance_eval &block
 			end
 
-			def name(name)
-				@name = name
+			def title(title)
+				@title = title
 			end
 
 			def datapoint(x, y)

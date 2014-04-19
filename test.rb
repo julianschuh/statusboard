@@ -7,7 +7,7 @@ x = Statusboard::GraphWidget.new do
 	display_totals
 
 	data_sequence do
-		name "Fucking"
+		title "Fucking"
 
 		(0..59).step(5) do |n|
 			datapoint "10:" + n.to_s, 17
@@ -15,7 +15,7 @@ x = Statusboard::GraphWidget.new do
 	end
 	
 	data_sequence do
-		name "Fucking 2"
+		title "Fucking 2"
 
 		(0..59).step(5) do |n|
 			datapoint "10:" + n.to_s, 26
