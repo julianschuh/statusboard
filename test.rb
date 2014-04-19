@@ -1,11 +1,38 @@
 require "statusboard"
 
-g = Statusboard::GraphWidget.new("Server load", :line)
+x = Statusboard::GraphWidget.new do
+	title "Test"
+	type :line
+	refresh_interval 120
+	display_totals
 
-g.add_datasequence('15 min load') do |seq|
-	(0..59).step(5) do |n|
-		seq.add_datapoint("10:" + n.to_s, 17)
+	data_sequence do
+		name "Fucking"
+
+		(0..59).step(5) do |n|
+			datapoint "10:" + n.to_s, 17
+		end
+	end
+	
+	data_sequence do
+		name "Fucking 2"
+
+		(0..59).step(5) do |n|
+			datapoint "10:" + n.to_s, 26
+		end
+	end
+
+	x_axis do
+		show_every_label
+	end
+
+	y_axis do
+		min_value 1
+		max_value 24
+		units_suffix "€"
+		scale_to 1
+		hide_labels
 	end
 end
 
-puts g.render
+puts x.render
