@@ -146,8 +146,8 @@ module Statusboard
 				@datapoints << {title: x, value: y}
 			end
 
-			def color(color)
-				@color = color
+			def color(col)
+				@color = col
 			end
 
             def construct
