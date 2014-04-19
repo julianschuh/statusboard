@@ -1,11 +1,6 @@
 require "statusboard"
 
-x = Statusboard::GraphWidget.new do
-	title "Test"
-	type :line
-	refresh_interval 120
-	display_totals
-
+supply = Proc.new do
 	data_sequence do
 		title "Fucking"
 
@@ -22,6 +17,13 @@ x = Statusboard::GraphWidget.new do
 			datapoint "10:" + n.to_s, 26
 		end
 	end
+end
+
+x = Statusboard::GraphWidget.new do
+	title "Test"
+	type :line
+	refresh_interval 30
+	display_totals
 
 	x_axis do
 		show_every_label
@@ -34,6 +36,8 @@ x = Statusboard::GraphWidget.new do
 		scale_to 1
 		hide_labels
 	end
+
+	data supply
 end
 
 puts x.render

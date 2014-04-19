@@ -4,7 +4,7 @@ module Statusboard
 			def initialize(&block)
 				@refresh_interval = 120
 				@display_totals = false
-				@data_sequences = []
+				@data = nil
 				@title = ""
 				@type = :bar
 				@x_axis = nil
@@ -21,8 +21,8 @@ module Statusboard
 				@display_totals = display
 			end
 
-			def data_sequence(&block)
-				@data_sequences << DataSequence.new(&block)
+			def data(proc = nil, &block)
+				@data = if proc.nil? then block else proc end
 			end
 
 			def title(title)
@@ -47,15 +47,40 @@ module Statusboard
 						"title" 				=> @title,
 						"refreshEveryNSeconds"	=> @refresh_interval,
 						"totals"				=> @display_totals,
-						"type"					=> @type,
-						"datasequences"         => @data_sequences.map(&:construct)
+						"type"					=> @type
 					}
 				}
+
+				#begin
+					data = GraphData.new(&@data)
+					constructed["graph"]["datasequences"] = data.construct
+				# rescue Exception => e
+				# 	constructed["graph"]["error"] = {
+				# 		"message" => e.message,
+				# 		"detail" => e.message
+				# 	}
+				# end
 
 				constructed["graph"]["xAxis"] = @x_axis.construct unless @x_axis.nil?
 				constructed["graph"]["yAxis"] = @y_axis.construct unless @y_axis.nil?
 				
 				constructed
+			end
+		end
+
+		class GraphData
+			def initialize(&block)
+				@data_sequences = []
+
+				instance_eval &block
+			end
+
+			def data_sequence(&block)
+				@data_sequences << DataSequence.new(&block)
+			end
+
+			def construct
+				@data_sequences.map(&:construct)
 			end
 		end
 
