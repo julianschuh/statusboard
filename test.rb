@@ -20,6 +20,7 @@ supply = Proc.new do
 end
 
 x = Statusboard::GraphWidget.new do
+
 	title "Test"
 	type :line
 	refresh_interval 30

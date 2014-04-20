@@ -1,6 +1,18 @@
 module Statusboard
+	# Module whoch contains the definition of the DSL that is used to
+	# describe and configure the widgets and teir data(sources).
 	module DSL
-		class GraphDescription
+		class DSLBase
+			def self.setter(*method_names)
+				method_names.each do |name|
+					send :define_method, name do |data|
+						instance_variable_set "@#{name}".to_sym, data 
+					end
+				end
+			end
+		end
+
+		class GraphDescription < DSLBase
 			def initialize(&block)
 				@refresh_interval = 120
 				@display_totals = false
@@ -13,9 +25,7 @@ module Statusboard
 				instance_eval &block
 			end
 
-			def refresh_interval(refresh_interval)
-				@refresh_interval = refresh_interval
-			end
+			setter :refresh_interval, :title, :type
 
 			def display_totals(display = true)
 				@display_totals = display
@@ -23,14 +33,6 @@ module Statusboard
 
 			def data(proc = nil, &block)
 				@data = if proc.nil? then block else proc end
-			end
-
-			def title(title)
-				@title = title
-			end
-
-			def type(type)
-				@type = type.to_sym
 			end
 
 			def x_axis(&block)
@@ -51,15 +53,15 @@ module Statusboard
 					}
 				}
 
-				#begin
+				begin
 					data = GraphData.new(&@data)
 					constructed["graph"]["datasequences"] = data.construct
-				# rescue Exception => e
-				# 	constructed["graph"]["error"] = {
-				# 		"message" => e.message,
-				# 		"detail" => e.message
-				# 	}
-				# end
+				rescue Exception => e
+					constructed["graph"]["error"] = {
+						"message" => e.message,
+						"detail" => e.message
+					}
+				end
 
 				constructed["graph"]["xAxis"] = @x_axis.construct unless @x_axis.nil?
 				constructed["graph"]["yAxis"] = @y_axis.construct unless @y_axis.nil?
@@ -68,7 +70,7 @@ module Statusboard
 			end
 		end
 
-		class GraphData
+		class GraphData < DSLBase
 			def initialize(&block)
 				@data_sequences = []
 
@@ -84,7 +86,7 @@ module Statusboard
 			end
 		end
 
-		class XAxis
+		class XAxis < DSLBase
 			def initialize(&block)
 				@show_every_label = false
 
@@ -102,7 +104,7 @@ module Statusboard
 			end
 		end
 
-		class YAxis
+		class YAxis < DSLBase
 			def initialize(&block)
 				@min_value = nil
 				@max_value = nil
@@ -114,25 +116,7 @@ module Statusboard
 				instance_eval &block
 			end
 
-			def min_value(min)
-				@min_value = min
-			end
-
-			def max_value(max)
-				@max_value = max
-			end
-
-			def units_suffix(suf)
-				@units_suffix = suf
-			end
-
-			def units_prefix(pre)
-				@units_prefix = pre
-			end
-
-			def scale_to(scale)
-				@scale_to = scale
-			end
+			setter :min_value, :max_value, :units_suffix, :units_prefix, :scale_to
 
 			def hide_labels(hide = true)
 				@hide_labels = hide
@@ -154,7 +138,7 @@ module Statusboard
 			end
 		end
 
-		class DataSequence
+		class DataSequence < DSLBase
 			def initialize(&block)
 				@title = ""
 				@datapoints = []
@@ -163,16 +147,10 @@ module Statusboard
 				instance_eval &block
 			end
 
-			def title(title)
-				@title = title
-			end
+			setter :title, :color
 
 			def datapoint(x, y)
 				@datapoints << {title: x, value: y}
-			end
-
-			def color(col)
-				@color = col
 			end
 
             def construct
