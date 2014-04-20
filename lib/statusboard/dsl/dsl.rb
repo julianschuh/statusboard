@@ -76,95 +76,97 @@ module Statusboard
 				
 				constructed
 			end
-		end
 
-		class GraphData < DSLBase
-			def initialize(&block)
-				@data_sequences = []
+			protected
 
-				instance_eval &block
+			class XAxis < DSLBase
+				def initialize(&block)
+					@show_every_label = false
+
+					instance_eval &block
+				end
+
+				setter_with_default_value :show_every_label, true
+
+				def construct
+					{
+						"showEveryLabel" => @show_every_label
+					}
+				end
 			end
 
-			def data_sequence(&block)
-				@data_sequences << DataSequence.new(&block)
+			class YAxis < DSLBase
+				def initialize(&block)
+					@min_value = nil
+					@max_value = nil
+					@units_prefix = nil
+					@units_suffix = nil
+					@scale_to = 1
+					@hide_labels = false
+
+					instance_eval &block
+				end
+
+				setter :min_value, :max_value, :units_suffix, :units_prefix, :scale_to
+				setter_with_default_value :hide_labels, true
+
+				def construct
+					constructed = {
+						"scaleTo" => @scale_to,
+						"hide" => @hide_labels,
+						"units" => { }
+					}
+
+					constructed["minValue"] = @min_value unless @min_value.nil?
+					constructed["maxValue"] = @max_value unless @max_value.nil?
+					constructed["units"]["prefix"] = @units_prefix unless @units_prefix.nil?
+					constructed["units"]["suffix"] = @units_suffix unless @units_suffix.nil?
+
+					constructed
+				end
 			end
 
-			def construct
-				@data_sequences.map(&:construct)
-			end
-		end
+			class GraphData < DSLBase
+				def initialize(&block)
+					@data_sequences = []
 
-		class XAxis < DSLBase
-			def initialize(&block)
-				@show_every_label = false
+					instance_eval &block
+				end
 
-				instance_eval &block
-			end
+				def data_sequence(&block)
+					@data_sequences << DataSequence.new(&block)
+				end
 
-			setter_with_default_value :show_every_label, true
-
-			def construct
-				{
-					"showEveryLabel" => @show_every_label
-				}
-			end
-		end
-
-		class YAxis < DSLBase
-			def initialize(&block)
-				@min_value = nil
-				@max_value = nil
-				@units_prefix = nil
-				@units_suffix = nil
-				@scale_to = 1
-				@hide_labels = false
-
-				instance_eval &block
+				def construct
+					@data_sequences.map(&:construct)
+				end
 			end
 
-			setter :min_value, :max_value, :units_suffix, :units_prefix, :scale_to
-			setter_with_default_value :hide_labels, true
+			class DataSequence < DSLBase
+				def initialize(&block)
+					@title = ""
+					@datapoints = []
+					@color = nil
 
-			def construct
-				constructed = {
-					"scaleTo" => @scale_to,
-					"hide" => @hide_labels,
-					"units" => { }
-				}
+					instance_eval &block
+				end
 
-				constructed["minValue"] = @min_value unless @min_value.nil?
-				constructed["maxValue"] = @max_value unless @max_value.nil?
-				constructed["units"]["prefix"] = @units_prefix unless @units_prefix.nil?
-				constructed["units"]["suffix"] = @units_suffix unless @units_suffix.nil?
+				setter :title, :color
 
-				constructed
+				def datapoint(x, y)
+					@datapoints << {title: x, value: y}
+				end
+
+	            def construct
+	                constructed = {
+	                    "title" => @title,
+	                    "datapoints" => @datapoints
+	                }
+	                constructed["color"] = @color unless @color.nil?
+
+	                constructed
+	            end
 			end
-		end
-
-		class DataSequence < DSLBase
-			def initialize(&block)
-				@title = ""
-				@datapoints = []
-				@color = nil
-
-				instance_eval &block
-			end
-
-			setter :title, :color
-
-			def datapoint(x, y)
-				@datapoints << {title: x, value: y}
-			end
-
-            def construct
-                constructed = {
-                    "title" => @title,
-                    "datapoints" => @datapoints
-                }
-                constructed["color"] = @color unless @color.nil?
-
-                constructed
-            end
 		end
 	end
 end
