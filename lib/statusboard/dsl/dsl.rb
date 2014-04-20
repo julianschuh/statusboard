@@ -21,20 +21,13 @@ module Statusboard
 					instance_variable_set "@#{method_name}".to_sym, data 
 				end
 			end
+
+			def initialize(&block)
+				instance_eval &block
+			end
 		end
 
 		class GraphDescription < DSLBase
-			def initialize(&block)
-				@refresh_interval = 120
-				@display_totals = false
-				@data = nil
-				@title = ""
-				@type = :bar
-				@x_axis = nil
-				@y_axis = nil
-
-				instance_eval &block
-			end
 
 			setter :refresh_interval, :title, :type
 			setter_with_default_value :display_totals, true
@@ -80,12 +73,6 @@ module Statusboard
 			protected
 
 			class XAxis < DSLBase
-				def initialize(&block)
-					@show_every_label = false
-
-					instance_eval &block
-				end
-
 				setter_with_default_value :show_every_label, true
 
 				def construct
@@ -96,16 +83,6 @@ module Statusboard
 			end
 
 			class YAxis < DSLBase
-				def initialize(&block)
-					@min_value = nil
-					@max_value = nil
-					@units_prefix = nil
-					@units_suffix = nil
-					@scale_to = 1
-					@hide_labels = false
-
-					instance_eval &block
-				end
 
 				setter :min_value, :max_value, :units_suffix, :units_prefix, :scale_to
 				setter_with_default_value :hide_labels, true
@@ -130,7 +107,7 @@ module Statusboard
 				def initialize(&block)
 					@data_sequences = []
 
-					instance_eval &block
+					super &block
 				end
 
 				def data_sequence(&block)
@@ -144,11 +121,9 @@ module Statusboard
 
 			class DataSequence < DSLBase
 				def initialize(&block)
-					@title = ""
 					@datapoints = []
-					@color = nil
 
-					instance_eval &block
+					super &block
 				end
 
 				setter :title, :color
@@ -166,6 +141,20 @@ module Statusboard
 
 	                constructed
 	            end
+			end
+		end
+
+		class DIYDescription < DSLBase
+			def content(proc_or_content = nil, &block)
+				@content = if proc_or_content.nil? then block else proc_or_content end
+			end
+
+			def construct
+				content = if @content.respond_to?(:call) then @content.call() else @content end
+
+				{
+					content: content
+				}
 			end
 		end
 	end
