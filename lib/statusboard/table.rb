@@ -1,4 +1,8 @@
+require "erb"
+require "tilt/erb"
+
 module Statusboard
+
 	# Class which represents table widgets for Status Board.
 	# The widget is configured and filled with data using a DSL
 	# which is passed to the constructor.
@@ -11,23 +15,18 @@ module Statusboard
 		def render
 			table_data = @table_description.construct
 
-			result = "<table>"
-
+			rows = ""
 			table_data[:data][:rows].each do |row|
-				result << "<tr>"
 
+				cells = ""
 				row[:cells].each do |cell|
-					result << "<td>"
-					result << cell[:content].to_s
-					result << "</td>"
+					cells << self.render_template(cell[:type].to_s + "_cell.erb", cell)
 				end
 
-				result << "</tr>"
+				rows << self.render_template("row.erb", cells: cells)
 			end
 
-			result << "</table>"
-
-			result
+			self.render_template("table.erb", rows: rows)
 		end
 	end
 end

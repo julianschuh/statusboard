@@ -16,5 +16,11 @@ module Statusboard
 		def render
 			raise "Not implemented."
 		end
+	protected
+
+		def render_template(template, locals = {})
+			widget_type = self.class.name.split('::').last.sub(/Widget$/, '').downcase
+			Tilt::ERBTemplate.new(File.join(Statusboard::VIEW_PATH, widget_type, template)).render(nil, locals)
+		end
 	end
 end
