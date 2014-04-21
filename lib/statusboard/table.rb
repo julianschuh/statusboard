@@ -11,7 +11,7 @@ module Statusboard
 		def render
 			table_data = @table_description.construct
 
-			result = ""
+			result = "<table>"
 
 			table_data[:data][:rows].each do |row|
 				result << "<tr>"
@@ -24,6 +24,8 @@ module Statusboard
 
 				result << "</tr>"
 			end
+
+			result << "</table>"
 
 			result
 		end
