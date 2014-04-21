@@ -9,7 +9,23 @@ module Statusboard
 		end
 
 		def render
-			@table_description.construct
+			table_data = @table_description.construct
+
+			result = ""
+
+			table_data[:data][:rows].each do |row|
+				result << "<tr>"
+
+				row[:cells].each do |cell|
+					result << "<td>"
+					result << cell[:content].to_s
+					result << "</td>"
+				end
+
+				result << "</tr>"
+			end
+
+			result
 		end
 	end
 end

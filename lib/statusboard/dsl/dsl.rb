@@ -157,5 +157,73 @@ module Statusboard
 				}
 			end
 		end
+
+		class TableDescription < DSLBase
+			def data(proc = nil, &block)
+				@data = if proc.nil? then block else proc end
+			end
+
+			def construct
+				data = TableData.new(&@data).construct
+
+				{
+					data: data
+				}
+			end
+
+			protected
+
+			class TableData < DSLBase
+				def initialize(&block)
+					@rows = []
+
+					super &block
+				end
+
+				def row(&block)
+					@rows << TableRow.new(&block)
+				end
+
+				def construct
+					{
+						rows: @rows.map(&:construct)
+					}
+				end
+			end
+
+			class TableRow < DSLBase
+				def initialize(&block)
+					@cells = []
+
+					super &block
+				end
+
+				def cell(&block)
+					@cells << TableCell.new(&block)
+				end
+
+				def construct
+					{
+						cells: @cells.map(&:construct)
+					}
+				end
+			end
+
+			class TableCell < DSLBase
+				setter :content, :type, :colspan, :width, :height, :percentage, :imageurl
+
+				def construct
+					{
+						content: @content,
+						type: @type,
+						colspan: @colspan,
+						width: @width,
+						height: @height,
+						percentage: @percentage,
+						imageurl: @imageurl
+					}
+				end
+			end
+		end
 	end
 end

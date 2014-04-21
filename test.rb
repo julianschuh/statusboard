@@ -1,5 +1,8 @@
 require "statusboard"
 
+require "net/http"
+require "uri"
+require "json"
 
 diy_test1 = Statusboard::DIYWidget.new do
 	content "TestTest\n\n"
@@ -20,6 +23,31 @@ diy_test3 = Statusboard::DIYWidget.new do
 end
 
 puts diy_test3.render
+
+bitminter_data = Proc.new do
+	uri = URI.parse("https://bitminter.com/api/pool/blocks")
+	http = Net::HTTP.new(uri.host, uri.port)
+	http.use_ssl = true
+	http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+	request = Net::HTTP::Get.new(uri.path)
+	response = http.request(request)
+	parsed = JSON.parse(response.body)
+
+	parsed.each do |block|
+		row do
+			cell { content block["height"] }
+			cell { content block["confirmations_left"].to_s + " left" }
+			cell { content block["generator"] }
+			cell { content block["duration"].to_s }
+		end
+	end
+end
+
+table_test1 = Statusboard::TableWidget.new do
+	data bitminter_data
+end
+
+puts table_test1.render
 
 supply = Proc.new do
 	data_sequence do
@@ -61,5 +89,3 @@ x = Statusboard::GraphWidget.new do
 
 	data supply
 end
-
-puts x.render
