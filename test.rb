@@ -55,6 +55,11 @@ bitminter_data = Proc.new do
 				noresize
 				width "100px"
 			end
+
+			cell do
+				type :custom
+				content "YoYoYo"
+			end
 		end
 	end
 end
