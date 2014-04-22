@@ -43,6 +43,18 @@ bitminter_data = Proc.new do
 				type :percentage
 				percentage 50
 			end
+
+			cell do
+				type :image
+				imageurl "http://julez.io/julez_main.png"
+			end
+
+			cell do
+				type :image
+				imageurl "http://julez.io/julez_main.png"
+				noresize
+				width "100px"
+			end
 		end
 	end
 end

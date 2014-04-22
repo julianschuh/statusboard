@@ -188,9 +188,11 @@ module Statusboard
 
 			class TableCell < DSLBase
 				setter :content, :colspan, :width, :height, :percentage, :imageurl, :type
+				setter_with_default_value :noresize, true
 
 				def initialize(&block)
 					@type = :text
+					@noresize = false
 
 					super &block
 				end
@@ -199,11 +201,10 @@ module Statusboard
 					{
 						content: @content,
 						type: @type,
-						colspan: @colspan,
 						width: @width,
-						height: @height,
 						percentage: @percentage,
-						imageurl: @imageurl
+						imageurl: @imageurl,
+						noresize: @noresize
 					}
 				end
 			end
