@@ -39,6 +39,10 @@ bitminter_data = Proc.new do
 			cell { content block["confirmations_left"].to_s + " left" }
 			cell { content block["generator"] }
 			cell { content block["duration"].to_s }
+			cell do
+				type :percentage
+				percentage 50
+			end
 		end
 	end
 end

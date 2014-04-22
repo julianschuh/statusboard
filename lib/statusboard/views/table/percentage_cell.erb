@@ -1,0 +1,7 @@
+<td class="projectsBars" width="100px">
+
+<% (1..(percentage / (100 / 8.0)).round).each do |bar_num| %>
+<div class="barSegment value<%= bar_num %>"></div>
+<% end %>
+
+</td>
