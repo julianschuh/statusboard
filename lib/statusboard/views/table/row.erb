@@ -1,3 +1,5 @@
 <tr>
-<%= cells %>
+<% cells.each do |cell| %>
+	<%= render_template cell[:type].to_s + "_cell.erb", cell %>
+<% end %>
 </tr>

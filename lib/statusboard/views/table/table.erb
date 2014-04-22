@@ -1,5 +1,7 @@
 <table>
 
-<%= rows %>
+<% data[:rows].each do |row| %>
+	<%= render_template "row.erb", row %>
+<% end %>
 
 </table>

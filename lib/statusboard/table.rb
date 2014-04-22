@@ -15,18 +15,7 @@ module Statusboard
 		def render
 			table_data = @table_description.construct
 
-			rows = ""
-			table_data[:data][:rows].each do |row|
-
-				cells = ""
-				row[:cells].each do |cell|
-					cells << self.render_template(cell[:type].to_s + "_cell.erb", cell)
-				end
-
-				rows << self.render_template("row.erb", cells: cells)
-			end
-
-			self.render_template("table.erb", rows: rows)
+			self.render_template("table.erb", table_data)
 		end
 	end
 end
