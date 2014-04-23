@@ -87,8 +87,8 @@ module Statusboard
 					super &block
 				end
 
-				def data_sequence(&block)
-					@data_sequences << DataSequence.new(&block)
+				def data_sequence(title = nil, &block)
+					@data_sequences << DataSequence.new(title, &block)
 				end
 
 				def construct
@@ -97,8 +97,9 @@ module Statusboard
 			end
 
 			class DataSequence < DSLBase
-				def initialize(&block)
+				def initialize(title, &block)
 					@datapoints = []
+					@title = title
 
 					super &block
 				end
@@ -175,8 +176,8 @@ module Statusboard
 					super &block
 				end
 
-				def cell(&block)
-					@cells << TableCell.new(&block)
+				def cell(type = :text, &block)
+					@cells << TableCell.new(type, &block)
 				end
 
 				def construct
@@ -190,8 +191,11 @@ module Statusboard
 				setter :content, :colspan, :width, :height, :percentage, :imageurl, :type
 				setter_with_default_value :noresize, true
 
-				def initialize(&block)
+				def initialize(type, &block)
+
 					@type = :text
+					@type = type unless type.nil?
+
 					@noresize = false
 
 					super &block

@@ -23,6 +23,7 @@ module Statusboard
 				end
 			end
 
+			# Default constructor. Executed the block within its own context.
 			def initialize(&block)
 				instance_eval &block
 			end
