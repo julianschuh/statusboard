@@ -1,4 +1,5 @@
 require "statusboard"
+require "statusboard/main"
 
 require "net/http"
 require "uri"
@@ -88,6 +89,8 @@ supply = Proc.new do
 		end
 	end
 end
+
+widget "blubber", "huhuhu"
 
 x = Statusboard::GraphWidget.new do
 
