@@ -8,6 +8,7 @@ module Statusboard
 	# the constructor or alternatively as first-level statements when main
 	# is included.
 	class StatusboardServer < Sinatra::Base
+
 		def initialize(*args, &block)
 
 			@widgets = {}
@@ -17,11 +18,23 @@ module Statusboard
 			instance_eval &block unless block.nil?
 		end
 
-		def widget(name, widget)
-			@widgets[name.to_sym] = widget
+		def widget(name, type_or_widget, &block)
+			if type_or_widget.respond_to?(:render)
+				@widgets[name.to_sym] = type_or_widget
+			else
+				raise ArgumentError, "Widget (" + name.to_s + ") without block specified." if block.nil?
+
+				begin
+					klass = Statusboard.const_get(type_or_widget.to_s.capitalize + "Widget")
+				rescue NameError
+					raise ArgumentError, "Invalid widget type " + type_or_widget.to_s + "specified."
+				end
+
+				@widgets[name.to_sym] = klass.new(&block)
+			end
 		end
 
-		get "/widget/:name" do |widget|
+		get "/widget/:name/?" do |widget|
 			raise Sinatra::NotFound if @widgets[widget.to_sym].nil?
 
 			@widgets[widget.to_sym].render

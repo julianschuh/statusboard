@@ -122,7 +122,7 @@ module Statusboard
 			end
 		end
 
-		class DIYDescription < DSLBase
+		class DiyDescription < DSLBase
 			def content(proc_or_content = nil, &block)
 				@content = if proc_or_content.nil? then block else proc_or_content end
 			end

@@ -19,4 +19,4 @@ class Rack::Builder
 end
 
 # Run the app _after_ the file (where this file was included in) was executed successfully to allow for configuration
-at_exit { Rack::Handler.default.run app }
+at_exit { Rack::Handler.default.run app if $!.nil? }

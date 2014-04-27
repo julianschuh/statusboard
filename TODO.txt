@@ -1,0 +1,1 @@
+  - Add way to allow the user to specify server settings when using main

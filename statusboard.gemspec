@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Julian Schuh"]
   spec.email         = ["julez@julez.in"]
   spec.summary       = %q{Generate data for the Status Board App by Panic.}
-  spec.description   = %q{Generate data that is compatible with the Status Board app by Panic using a convenient DSL.}
+  spec.description   = %q{Generate data that is compatible with the Status Board app by Panic using a convenient and expressive DSL.}
   spec.homepage      = "http://julez.io"
   spec.license       = "MIT"
 
