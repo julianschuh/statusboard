@@ -18,5 +18,5 @@ class Rack::Builder
   include Sinatra::Delegator
 end
 
-# Run the app _after_ the file (where this file was included in) was executed successfully to allow for configuration
+# Run the app _after_ the applications main file (where this file was included in) was executed successfully to allow for configuration
 at_exit { Rack::Handler.default.run app if $!.nil? }

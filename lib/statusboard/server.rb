@@ -3,14 +3,15 @@ require "sinatra/base"
 
 module Statusboard
 
-	# Simple Sinatra-based server which serves widgets to the app using http.
-	# The Widgets can be defined using a simple DSL either using the block of
-	# the constructor or alternatively as first-level statements when main
-	# is included.
+	# Simple Sinatra-based server whose task it is to serve widgets to the app(s)
+	# using http. Widgets can be defined directly using the DSL or by passing already
+	# initialized Widget-objects. The widgets are identified using a unique name for
+	# each defined widget.
 	class StatusboardServer < Sinatra::Base
 
+		# Initializes a new instance of the server using the configuration specified via
+		# the DSL in the block.
 		def initialize(*args, &block)
-
 			@widgets = {}
 
 			super(*args, &nil)	# Dont pass the block to super as it would result in errors because the dsl methods aren't available if not instance_eval'd
@@ -19,6 +20,8 @@ module Statusboard
 		end
 
 		def widget(name, type_or_widget, &block)
+			raise ArgumentError, "Widget name " + name.to_s + " already taken" unless @widgets[name.to_sym].nil?
+
 			if type_or_widget.respond_to?(:render)
 				@widgets[name.to_sym] = type_or_widget
 			else

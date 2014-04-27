@@ -1,8 +1,5 @@
 require "statusboard/widget"
 
-require "erb"
-require "tilt/erb"
-
 module Statusboard
 
 	# Class which represents table widgets for Status Board.
