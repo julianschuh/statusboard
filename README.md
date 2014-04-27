@@ -4,7 +4,7 @@ The statusboard gem provides a **simple, expressive DSL** which can be used to f
 
 The included server module makes serving the data to the app a really straight-forward process that doesn't require any server-related code at all. The Rack-compliance of the server module makes the integration with existing systems a breeze.
 
-[Visit the Panic website for more information in the Status Board app.](https://panic.com/statusboard/)
+[Visit the Panic website for more information about the Status Board app.](https://panic.com/statusboard/)
 
 ## Getting Started
 
@@ -104,7 +104,7 @@ puts my_widget.render
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/statusboard/fork )
+1. Fork it ( https://github.com/JulezJulian/statusboard/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

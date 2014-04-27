@@ -1,3 +1,4 @@
   - Add way to allow the user to specify server settings when using main
   - Add examples
   - Add DSL documentation
+  - add information on state and versioning
