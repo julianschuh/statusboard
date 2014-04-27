@@ -107,7 +107,7 @@ module Statusboard
 				setter :title, :color
 
 				def datapoint(x, y)
-					@datapoints << {title: x, value: y}
+					@datapoints << {title: x.to_s, value: y.to_s}
 				end
 
 	            def construct
