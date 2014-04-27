@@ -14,6 +14,10 @@ module Statusboard
 		# block is specified.
 		def initialize(*args, &block)
 			@widgets = {}
+			@server_settings = {
+				:Port => 8080,
+				:Host => "0.0.0.0"
+			}
 
 			super(*args, &nil)	# Dont pass the block to super as it would result in errors because the dsl methods aren't available if not instance_eval'd
 
@@ -43,6 +47,10 @@ module Statusboard
 
 				@widgets[name.to_sym] = klass.new(&block)
 			end
+		end
+
+		def server_settings(settings={})
+			@server_settings.merge!(settings)
 		end
 
 		get "/widget/:name/?" do |widget|
