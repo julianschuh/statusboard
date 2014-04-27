@@ -22,12 +22,12 @@ module Statusboard
 			if type_or_widget.respond_to?(:render)
 				@widgets[name.to_sym] = type_or_widget
 			else
-				raise ArgumentError, "Widget (" + name.to_s + ") without block specified." if block.nil?
+				raise ArgumentError, "Widget " + name.to_s + " specified without block." if block.nil?
 
 				begin
 					klass = Statusboard.const_get(type_or_widget.to_s.capitalize + "Widget")
 				rescue NameError
-					raise ArgumentError, "Invalid widget type " + type_or_widget.to_s + "specified."
+					raise ArgumentError, "Invalid widget type " + type_or_widget.to_s + " specified."
 				end
 
 				@widgets[name.to_sym] = klass.new(&block)

@@ -17,7 +17,7 @@ module Statusboard
 		def render
 			table_data = @table_description.construct
 
-			self.render_template("table.erb", table_data)
+			render_template("table.erb", table_data)
 		end
 	end
 end
