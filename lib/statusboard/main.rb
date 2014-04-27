@@ -1,4 +1,5 @@
 require "statusboard"
+require "statusboard/server"
 
 require "rack/handler"
 require "rack-handlers"
@@ -9,7 +10,7 @@ Sinatra::Delegator.target = app
 Sinatra::Delegator.delegate :widget
 
 # include would include the module in Object
-# extend only extends the `main` object
+# extend only extends the main object
 extend Sinatra::Delegator
 
 class Rack::Builder

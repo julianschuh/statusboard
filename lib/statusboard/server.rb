@@ -1,3 +1,4 @@
+require "statusboard"
 require "sinatra/base"
 
 module Statusboard
@@ -7,10 +8,11 @@ module Statusboard
 	# the constructor or alternatively as first-level statements when main
 	# is included.
 	class StatusboardServer < Sinatra::Base
-		def initialize(&block)
+		def initialize(*args, &block)
+
 			@widgets = {}
 
-			super
+			super(*args, &nil)	# Dont pass the block to super as it would result in errors because the dsl methods aren't available if not instance_eval'd
 
 			instance_eval &block unless block.nil?
 		end
