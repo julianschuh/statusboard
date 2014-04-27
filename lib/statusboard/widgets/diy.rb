@@ -1,3 +1,5 @@
+require "statusboard/widget"
+
 module Statusboard
 	# Class which represents DIY widgets for Status Board.
 	# The widget is configured and filled with data using a DSL

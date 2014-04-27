@@ -1,3 +1,5 @@
+require "statusboard/widget"
+
 require "json"
 
 module Statusboard

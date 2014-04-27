@@ -13,13 +13,10 @@ module Statusboard
 			super
 
 			instance_eval &block unless block.nil?
-
-			self
 		end
 
 		def widget(name, widget)
 			@widgets[name.to_sym] = widget
-			puts "YupYup"
 		end
 
 		get "/widget/:name" do |widget|

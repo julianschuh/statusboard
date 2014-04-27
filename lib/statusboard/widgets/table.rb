@@ -1,3 +1,5 @@
+require "statusboard/widget"
+
 require "erb"
 require "tilt/erb"
 
