@@ -10,7 +10,8 @@ module Statusboard
 	class StatusboardServer < Sinatra::Base
 
 		# Initializes a new instance of the server using the configuration specified via
-		# the DSL in the block.
+		# the DSL in the block. The server will be initialized without any widgets if no
+		# block is specified.
 		def initialize(*args, &block)
 			@widgets = {}
 
@@ -19,6 +20,13 @@ module Statusboard
 			instance_eval &block unless block.nil?
 		end
 
+		# Registers a new widget which will be served by the server.
+		#
+		# ==== Attributes
+		#
+		# * +name+ - Unique identifier of the widget. The widget will be accessible using the URL /widget/+name+
+		# * +type_or_widget+ - Either the type of the widget as a symbol (:table, :graph, :diy) or an already initialized widget object
+		# * +&block+ - If only the type of the widget was specified in the previous paremeter, the block must be specified and contain the DSL statements which descibe the widget
 		def widget(name, type_or_widget, &block)
 			raise ArgumentError, "Widget name " + name.to_s + " already taken" unless @widgets[name.to_sym].nil?
 
