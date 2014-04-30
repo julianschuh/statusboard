@@ -38,6 +38,42 @@ and run `ruby statusboard.rb`. A webserver that serves the widget will automatic
 
 For further and more complex examples take a look at the `examples` directory.
 
+## DSL
+The statusboard gem makes use of a simple, expressive DSL which is used to configure and feed the widgets. The statements of the DSL are explained in the following paragraph.
+
+### widget
+The **widget** statement is used to define a new widget with a specified _name_ and _type_. The widgets name is used as the identifier of the widget and hence has to be unique. A block must be specified with further DSL statements which describe the widget and its contents.
+
+```ruby
+widget name, type do
+	...
+end
+```
+
+Supported types are `:table`, `:diy` and `:graph`. The specified type directly translates to the corresponding class, e.g. `:table` will use the class `Statusboard::TableWidget`.
+
+Example:
+```ruby
+widget :sales, :graph do
+	...
+end
+```
+The above code will define a graph-widget with the name `sales`. The widget will be available at the URL `http://your.ip:8080/widget/sales/`.
+
+#### Advanced Features
+ - Custom widget types are supported: Create a subclass of `Statusboard::WidgetBase` in the `Statusboard` module with a name like `MycustomWidget` (replace `Mycustom`). Then use the corresponding identifier (e.g. `:mycustom`) with the widget statement.
+ - You can create a widget manually (by instanciating the widgets class) and pass the resulting object directly to the widget statement as the second parameter. In this case, the block must not be specified.
+
+```ruby
+my_diy = Statusboard::DiyWidget.new do
+	...
+end
+
+widget :mycustom1, my_diy
+```
+
+### Table widget
+
 ## Advanced Usage
 
 The gem can be used in _three_ different ways:
