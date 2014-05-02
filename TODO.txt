@@ -1,3 +1,4 @@
   - Add examples
   - Add DSL documentation
   - add information on state and versioning
+  - Split server.rb and DSL

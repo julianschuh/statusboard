@@ -188,7 +188,7 @@ module Statusboard
 			end
 
 			class TableCell < DSLBase
-				setter :content, :colspan, :width, :height, :percentage, :imageurl, :type
+				setter :content, :colspan, :width, :percentage, :imageurl, :type
 				setter_with_default_value :noresize, true
 
 				def initialize(type, &block)
