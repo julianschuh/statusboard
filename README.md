@@ -73,6 +73,65 @@ widget :mycustom1, my_diy
 ```
 
 ### Table widget
+A table widget has one property: `data`, which accepts either a block or a proc. The specified block/proc should contain the code that fetches the data to be displayed. The block/proc will be executed every time the widget is requested from the app.
+Within the block/proc, the DSL can be used to specify the data:
+
+The `row` statement creates a new row. A block must be specified in which the cells of the row are specified. The only statement that is accepted within `row` is the `cell` statement.
+
+The `cell` statement creates a cell within a row. A `cell` can have different properties as listed below:
+
+| Statement 	| Description	|
+| ------------- | ------------- |
+| type 			| Type of the cell. (Sell table below for supported types)|
+| content 		| Main content of the cell. Depends on the cell type.|
+| width 		| Width of the cell. Can be specified in px or percent. |
+| colspan		| Colspan of the cell |
+| percentage 	| Percentage which should be displayed. Only used if cell type is `:percentage`|
+| imageurl		| URL of the image that should be displayed. Only used if cell type is `:image`|
+| noresize		| Indicates if the image should be resized or not. Only used if cell type is `:image`|
+
+The following cell types are supported:
+
+| Type 			| Description 	|
+| ------------- | ------------- |
+| `:text`		| Displays the text specified as `content` |
+| `:percentage`	| Displays a percentage indicator. Percentage must be specified using the `percentage` statement |
+| `:image`		| Displays an image. URL must be specified using the `imageurl` statement. |
+| `:cutsom`		| Enables the use of custom cell. The cell (including all necessary HTML markup) must be specified using the `content` statement. |
+
+Example:
+
+```ruby
+data_proc = Proc.new do
+	row do
+		cell do
+			type :text
+			content "First row with 20%"
+		end
+
+		cell do
+			type :percentage
+			percentage 20
+		end
+	end
+
+	row do
+		cell do
+			type :text
+			content "First row with 80%"
+		end
+
+		cell do
+			type :percentage
+			percentage 80
+		end
+	end
+end
+
+widget :testtable do
+	data data_proc
+end
+```
 
 ## Advanced Usage
 
