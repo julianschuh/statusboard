@@ -34,7 +34,7 @@ module Statusboard
 				begin
 					data = GraphData.new(&@data)
 					constructed["graph"]["datasequences"] = data.construct
-				rescue Exception => e
+				rescue DataSourceError => e
 					constructed["graph"]["error"] = {
 						"message" => e.message,
 						"detail" => e.message
