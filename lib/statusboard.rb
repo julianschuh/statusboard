@@ -1,5 +1,7 @@
 require "statusboard/version"
 
+require "statusboard/errors"
+
 require "statusboard/dsl/dsl"
 
 require "statusboard/widgets/graph"
