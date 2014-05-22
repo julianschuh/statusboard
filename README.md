@@ -73,7 +73,7 @@ widget :mycustom1, my_diy
 ```
 
 ### Table widget
-A table widget has one property: `data`, which accepts either a block or a proc. The specified block/proc should contain the code that fetches the data to be displayed. The block/proc will be executed every time the widget is requested from the app.
+A table widget provides one top-level statement: `data`, which accepts either a block or a proc. The specified block/proc should contain the code that fetches the data to be displayed. The block/proc will be executed every time the widget is requested from the app.
 Within the block/proc, the DSL can be used to specify the data:
 
 The `row` statement creates a new row. A block must be specified in which the cells of the row are specified. The only statement that is accepted within `row` is the `cell` statement.
@@ -134,6 +134,54 @@ end
 ```
 
 ### Graph Widget
+
+A graph widget provides seven top-level statements:
+
+| Statement		| Description 	|
+| ------------- | ------------- |
+| `data`		| A block or proc which handles fetching the data. |
+| `x_axis`		| A block which can be used to configure the behavior of the X axis. |
+| `y_axis`		| A block which can be used to configure the behavior of the Y axis. |
+| `refresh_interval`	| Specifies how often the data should be refreshed by the app (in seconds). |
+| `title`		| Specified the title of the widget. |
+| `type`		| Specifies the type of the graph. Supported values: `:bar` and `:line` |
+| `display_totals`	| Specified wether or not the totals of all data sequences should be displayed. Can be called without parameter. |
+
+
+#### The `data` statement
+
+The `data` statement is used to feed the graph widget with data. It provides exactly one statement:
+`data_sequence`.
+The statement defines a new data sequence, which is a collection of data points that belong together. The data points of a sequence taken together yield to the corresponding line in the graph.The statement can be called multiple times if multiple data sequences should be specified.
+
+The `data_sequence` again takes a block which is used to configure the data sequence and to specify the data which should be displayed:
+
+| Statement		| Description 	|
+| ------------- | ------------- |
+| `title`		| Title describing the data sequence. E.g. "Sales per Day" |
+| `color`		| The color in which the line or bars should appear. |
+| `datapoint`	| Adds a data point to the current data sequence. The statement accespts *two* parameters: The **X** coordinate and the **Y** coordinate. The statement can be called multiple times in order to add multiple data points. Data points will displayed in the order they are added, _not_ sorted by the X coordinate. |
+
+#### The `x_axis` statement
+
+The following statement(s) are supported to configure the behavior of the **X** axis.
+
+| Statement		| Description 	|
+| ------------- | ------------- |
+| `show_every_label` | Forces every x datapoints to be displayed on the axis. Can be called without parameter. |
+
+#### The `y_axis` statement
+
+The following statement(s) are supported to configure the behavior of the **Y** axis.
+
+| Statement		| Description 	|
+| ------------- | ------------- |
+| `min_value` | Minimum value of the Y coordinate of every datapoint which should be displayed. |
+| `max_value` | Maximum value of the Y coordinate of every datapoint which should be displayed. |
+| `units_suffix` | Suffix which is appended to the Y axis labels. Can be used to add a unit to the raw data. |
+| `units_prefix` | Prefix which is prepended to the Y axis labels. Can be used to add a unit to the raw data. |
+| `scale_to` | Scales the Y coordinates by the specified value. |
+| `hide_labels` | Specified if no lebsl should be displayed at all for the Y axis. Can be called without parameter. |
 
 ### DIY Widget
 
