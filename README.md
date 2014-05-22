@@ -1,8 +1,8 @@
 # Statusboard
 
-The statusboard gem provides a **simple, expressive DSL** which can be used to feed your Panic-powered Status Board with custom data. The DSL handles table, graph and DIY widgets in a way that renders messing around with the raw data unnecessary.
+The statusboard gem provides a **simple, expressive DSL** which was purpose-built to feed your Panic-powered Status Board with custom static or dynamic data. The DSL handles table, graph and DIY widgets in a way that renders messing around with raw data unnecessary.
 
-The included server module makes serving the data to the app a really straight-forward process that doesn't require any server-related code at all. The Rack-compliance of the server module makes the integration with existing systems a breeze.
+The included server module makes serving the data to the app a simple and straight-forward process that doesn't require you to write any server-related code. The Rack-compliance of the server module makes the integration with existing systems a breeze.
 
 [Visit the Panic website for more information about the Status Board app.](https://panic.com/statusboard/)
 
@@ -34,12 +34,12 @@ widget "yequalsx", :graph do
 end
 ```
 
-and run `ruby statusboard.rb`. A webserver that serves the widget will automatically be started on port 8080. In your Status Board App, add a graph widget and set the URL to `your.ip:8080/widget/yequalsx`. The app should now display the graph.
+and run `ruby statusboard.rb`. A webserver which serves the widget will automatically be started on port 8080. In your Status Board App, add a graph widget and set the URL to `your.ip:8080/widget/yequalsx`. A graph widget containing the plot of the mathematical function `f(x) = x` will be displayed.
 
 For further and more complex examples take a look at the `examples` directory.
 
 ## DSL
-The statusboard gem makes use of a simple, expressive DSL which is used to configure and feed the widgets. The statements of the DSL are explained in the following paragraph.
+The statusboard gem features a simple and expressive DSL which is used to configure and feed the widgets with data. Supported statements of the DSL are explained in the following paragraphs.
 
 ### widget
 The **widget** statement is used to define a new widget with a specified _name_ and _type_. The widgets name is used as the identifier of the widget and hence has to be unique. A block must be specified with further DSL statements which describe the widget and its contents.
@@ -118,7 +118,7 @@ data_proc = Proc.new do
 	row do
 		cell do
 			type :text
-			content "First row with 80%"
+			content "Second row with 80%"
 		end
 
 		cell do
@@ -132,6 +132,10 @@ widget :testtable do
 	data data_proc
 end
 ```
+
+### Graph Widget
+
+### DIY Widget
 
 ## Advanced Usage
 
