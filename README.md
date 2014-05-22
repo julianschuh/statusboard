@@ -128,7 +128,7 @@ data_proc = Proc.new do
 	end
 end
 
-widget :testtable do
+widget :testtable, :table do
 	data data_proc
 end
 ```
@@ -216,9 +216,9 @@ widget "custom", :diy do
 end
 ```
 
-## Advanced Usage
+## Advanced Deployment
 
-The gem can be used in _three_ different ways:
+The gem can be deployed in _three_ different ways:
 
 ### **Standalone**
 In this scenario, the gem is used to create a standalone server application whose only purpose is to serve data to the Status Board app. As this is the prevalent case, the gem was designed to support this scenario without having to write any code other than the code that acts as the data source.
