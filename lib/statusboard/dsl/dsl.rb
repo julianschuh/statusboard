@@ -4,6 +4,51 @@ module Statusboard
 	# Module whoch contains the definition of the DSL that is used to
 	# describe and configure the widgets and teir data(sources).
 	module DSL
+		class ServerDescription < DSLBase
+
+			attr_reader :widgets, :server_settings
+
+			def initialize(&block)
+				@widgets = {}
+
+				@server_settings = {
+					:Port => 8080,
+					:Host => "0.0.0.0"
+				}
+
+				super &block unless block	.nil?
+			end
+
+			def server_settings(settings={})
+				@server_settings.merge!(settings)
+			end
+
+			# Registers a new widget which will be served by the server.
+			#
+			# ==== Attributes
+			#
+			# * +name+ - Unique identifier of the widget. The widget will be accessible using the URL /widget/+name+
+			# * +type_or_widget+ - Either the type of the widget as a symbol (:table, :graph, :diy) or an already initialized widget object
+			# * +&block+ - If only the type of the widget was specified in the previous paremeter, the block must be specified and contain the DSL statements which descibe the widget
+			def widget(name, type_or_widget, &block)
+				raise ArgumentError, "Widget name " + name.to_s + " already taken" unless @widgets[name.to_sym].nil?
+
+				if type_or_widget.respond_to?(:render)
+					@widgets[name.to_sym] = type_or_widget
+				else
+					raise ArgumentError, "Widget " + name.to_s + " specified without block." if block.nil?
+
+					begin
+						klass = Statusboard.const_get(type_or_widget.to_s.capitalize + "Widget")
+					rescue NameError
+						raise ArgumentError, "Invalid widget type " + type_or_widget.to_s + " specified."
+					end
+
+					@widgets[name.to_sym] = klass.new(&block)
+				end
+			end
+		end
+
 		class GraphDescription < DSLBase
 
 			setter :refresh_interval, :title, :type
