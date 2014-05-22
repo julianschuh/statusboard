@@ -139,7 +139,7 @@ A graph widget provides seven top-level statements:
 
 | Statement		| Description 	|
 | ------------- | ------------- |
-| `data`		| A block or proc which handles fetching the data. |
+| `data`		| A block or proc which handles fetching of the data. |
 | `x_axis`		| A block which can be used to configure the behavior of the X axis. |
 | `y_axis`		| A block which can be used to configure the behavior of the Y axis. |
 | `refresh_interval`	| Specifies how often the data should be refreshed by the app (in seconds). |
@@ -183,7 +183,38 @@ The following statement(s) are supported to configure the behavior of the **Y** 
 | `scale_to` | Scales the Y coordinates by the specified value. |
 | `hide_labels` | Specified if no lebsl should be displayed at all for the Y axis. Can be called without parameter. |
 
+#### Example
+
+```ruby
+widget "yequalsx", :graph do
+	title "My first graph"
+	type :line
+
+	data do
+		data_sequence do
+			title "f(x) = x"
+
+			(0..15).each do |n|
+				datapoint n, n
+			end
+		end
+	end
+end
+```
+
 ### DIY Widget
+
+The DIY widget allows to create completely custom-made, HTML-based widgets. As a further abstraction is not possible, the widgets offers only _one_ top-level statement: `content`. `content` awaits either a block, a proc or an arbitrary object which can be converted to a string.
+
+Example:
+
+```ruby
+widget "custom", :diy do
+	content do
+		%w[this is a test].join(" ")
+	end
+end
+```
 
 ## Advanced Usage
 
