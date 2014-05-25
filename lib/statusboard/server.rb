@@ -1,4 +1,3 @@
-require "statusboard"
 require "sinatra/base"
 
 module Statusboard
@@ -18,7 +17,7 @@ module Statusboard
 
 			super(*args, &nil)	# Dont pass the block to super as it would result in errors because the dsl methods aren't available if not instance_eval'd
 
-			@server_description = DSL::ServerDescription.new
+			@server_description = DSL::ServerDescription.new &block
 		end
 
 		get "/widget/:name/?" do |widget|

@@ -1,6 +1,6 @@
 # Statusboard
 
-The statusboard gem provides a **simple, expressive DSL** which was purpose-built to feed your Panic-powered Status Board with custom static or dynamic data. The DSL handles table, graph and DIY widgets in a way that renders messing around with raw data unnecessary.
+The statusboard gem provides a **simple, expressive DSL** which was purpose-built to feed your Panic-powered Status Board with data that matters to you. The DSL handles table, graph and DIY widgets in a way that renders messing around with raw data unnecessary.
 
 The included server module makes serving the data to the app a simple and straight-forward process that doesn't require you to write any server-related code. The Rack-compliance of the server module makes the integration with existing systems a breeze.
 
@@ -42,7 +42,7 @@ For further and more complex examples take a look at the `examples` directory.
 The statusboard gem features a simple and expressive DSL which is used to configure and feed the widgets with data. Supported statements of the DSL are explained in the following paragraphs.
 
 ### widget
-The **widget** statement is used to define a new widget with a specified _name_ and _type_. The widgets name is used as the identifier of the widget and hence has to be unique. A block must be specified with further DSL statements which describe the widget and its contents.
+The **widget** statement is used to define a new widget with a specified _name_ and _type_. The widgets name is used as the identifier of the widget and hence has to be unique. A block containing further DSL statements which describe the widget and its contents must be specified.
 
 ```ruby
 widget name, type do
@@ -73,12 +73,12 @@ widget :mycustom1, my_diy
 ```
 
 ### Table widget
-A table widget provides one top-level statement: `data`, which accepts either a block or a proc. The specified block/proc should contain the code that fetches the data to be displayed. The block/proc will be executed every time the widget is requested from the app.
+A table widget provides one top-level statement: `data`, which accepts either a block or a proc. The specified block/proc should contain the code which is responsible to fetche the data which should be displayed. The block/proc will be executed every time the content of the widget is requested by the app.
 Within the block/proc, the DSL can be used to specify the data:
 
 The `row` statement creates a new row. A block must be specified in which the cells of the row are specified. The only statement that is accepted within `row` is the `cell` statement.
 
-The `cell` statement creates a cell within a row. A `cell` can have different properties as listed below:
+The `cell` statement creates a cell within a row. A `cell` can have different properties (represented by the corresponding DSL statements) as listed below:
 
 | Statement 	| Description	|
 | ------------- | ------------- |
@@ -245,7 +245,7 @@ In this scenario, the gem is used within an existing, Rack-based server applicat
 To create a server instance which can be used in a Rack-based environment, include the required files by adding the line
 
 ```ruby
-require "statusboard/server"
+require "statusboard"
 ```
 to your application file.
 
@@ -280,9 +280,14 @@ end
 puts my_widget.render
 ```
 
+## Todo
+
+ * Verify/discuss architecture of the gem
+ * Write meaningful tests
+
 ## Contributing
 
-1. Fork it ( https://github.com/JulezJulian/statusboard/fork )
+1. Fork it ( https://github.com/julianschuh/statusboard/fork )
 2. Read the ARCHITECTURE.md file
 3. Create your feature branch (`git checkout -b my-new-feature`)
 4. Commit your changes (`git commit -am 'Add some feature'`)

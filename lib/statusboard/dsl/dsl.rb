@@ -16,7 +16,7 @@ module Statusboard
 					:Host => "0.0.0.0"
 				}
 
-				super &block unless block	.nil?
+				super &block unless block.nil?
 			end
 
 			def server_settings(settings={})

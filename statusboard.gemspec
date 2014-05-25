@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Statusboard::VERSION
   spec.authors       = ["Julian Schuh"]
   spec.email         = ["julez@julez.in"]
-  spec.summary       = %q{Generate data for the Status Board App by Panic.}
-  spec.description   = %q{Generate data that is compatible with the Status Board app by Panic using a convenient and expressive DSL.}
+  spec.summary       = %q{Feed the Status Board App by Panic with custom data.}
+  spec.description   = %q{Use a convenient and expressive DSL to feed the Status Board App by Panic with custom data. Benefit directly from rubys expressiveness without having to touch any server-related code.}
   spec.homepage      = "http://julez.io"
   spec.license       = "MIT"
 
