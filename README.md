@@ -36,7 +36,7 @@ end
 
 and run `ruby statusboard.rb`. A webserver which serves the widget will automatically be started on port 8080. In your Status Board App, add a graph widget and set the URL to `your.ip:8080/widget/yequalsx`. A graph widget containing the plot of the mathematical function `f(x) = x` will be displayed.
 
-For further and more complex examples take a look at the `examples` directory.
+For further and more complex examples **take a look at the `examples` directory**.
 
 ## DSL
 The statusboard gem features a simple and expressive DSL which is used to configure and feed the widgets with data. Supported statements of the DSL are explained in the following paragraphs.
@@ -284,6 +284,7 @@ puts my_widget.render
 
  * Verify/discuss architecture of the gem
  * Write meaningful tests
+ * Improve language of this document
 
 ## Contributing
 
