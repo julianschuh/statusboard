@@ -1,4 +1,4 @@
-require "statusboard/widget"
+require "statusboard/widgets/base"
 
 require "json"
 
